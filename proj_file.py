@@ -48,11 +48,21 @@ class Match_Result_Tracker:
     def display_match_details(self, match_id, filename):
         match = self.matches.get(match_id)
         if match:
-            with open("match_results_display.txt", 'a') as file:
+            with open(filename, 'a') as file:
                 file.write(f"Match ID: {match.match_id}\n")
                 file.write(f"Team 1: {match.team1.name} (Score: {match.team1_score})\n")
                 file.write(f"Team 2: {match.team2.name} (Score: {match.team2_score})\n")
-                file.write(f"Winner: {match.winner}\n\n")
+                file.write(f"Winner: {match.winner}\n")
+                file.write("Team 1 Statistics:\n")
+                team1_stats = self.team_statistics(match.team1.name)
+                for key, value in team1_stats.items():
+                    file.write(f"{key}: {value}\n")
+                file.write("\n")
+                file.write("Team 2 Statistics:\n")
+                team2_stats = self.team_statistics(match.team2.name)
+                for key, value in team2_stats.items():
+                    file.write(f"{key}: {value}\n")
+                file.write("\n\n")
         else:
             print(f"Match {match_id} not found")
 
@@ -133,7 +143,7 @@ if __name__ == "__main__":
     # Update match scores
     tracker.update_match_score(1, 180, 170)
     tracker.update_match_score(2, 150, 150)
-#     tracker.update_match_score(3, 206, 217)
+    tracker.update_match_score(3, 206, 217)
     tracker.update_match_score(4, 166, 186)
     tracker.update_match_score(5, 127, 168)
     tracker.update_match_score(6, 175, 172)
